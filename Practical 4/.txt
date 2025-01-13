@@ -1,0 +1,338 @@
+ public int getbyte (int n )
+
+{
+
+	if (n==-128){
+ 	 return (-128) ;
+ 	 }
+
+   int ans ;
+   int temp ;
+   temp = n / 128;
+   if (temp % 2 == 0)
+   {
+   ans = (n % 128);
+   }
+   else
+   {
+     if(n>=0)
+     {
+     ans = ((n % 128)-128);
+     }
+     else
+     {
+     ans = ((n % 128)+128);
+     }
+   
+  }
+return ans ;   
+}
+
+
+public int getshort (int n )
+
+{
+	if (n==-35768){
+ 	 return (-35768) ;
+ 	 }
+
+ 	
+   int ans ;
+   int temp ;
+   temp = n / 35768;
+   
+  
+   
+   if (temp % 2 == 0){
+   
+   	ans = (n % 35768);
+   } else  {
+   
+     if(n>=0)  {
+     
+     ans = ((n % 35768)-35768);
+     
+     }    else  {
+     
+     ans = ((n % 35768)+35768);
+     
+     }
+   
+  }
+	
+	
+ 	 return ans ;   
+	
+} 
+
+
+
+  
+
+	
+  int getByte (int n ) {
+  	 int ans ;
+   
+   	 int temp ;
+   
+  	 temp = n / 128;
+   
+   	if (temp % 2 == 0)  {
+   
+   		ans = (n % 128);
+   		}	else {
+     			if(n>=0)  {
+     				ans = ((n % 128)-128);
+     	} else   {
+     		ans = ((n % 128)+128);
+     }
+  }  
+  return ans ;
+}
+
+	
+	 int getshort (int n )  {
+  		 int ans ;
+  		 int temp ;
+   		temp = n / 32768;
+   		
+   		
+  		if (temp % 2 == 0)
+   {
+   ans = (n % 32768);
+   }
+   else
+   {
+     if(n>=0)
+     {
+     ans = ((n % 32768)-32768);
+     }
+     else
+     {
+     ans = ((n % 32768)+32768);
+     }
+  }
+  return ans ;
+}
+
+	public int getnumber(int n , String type ){
+
+   	int ans = 0;
+   	type = type.toLowerCase();
+
+   	if(type.equals("byte")){
+   	
+   		ans = getByte(n);
+   	
+   	}  else if(type.equals("short")){
+   	
+   		ans = getshort(n );
+   	
+   		
+   		} 
+        
+
+   	
+   	return ans ;
+   	}
+
+
+
+
+
+String decimalToBinary(String n) { 
+    if (Integer.valueOf(n) == 0) 
+        return n; 
+    
+    int number = Integer.valueOf(n); 
+    char[] binary = new char[32]; 
+    int index = 0, remainder; 
+    
+    while (number > 0) { 
+        remainder = number % 2; 
+        binary[index] = (char)(remainder + '0'); 
+        number /= 2; 
+        index++; 
+    } 
+    
+    char[] revbinary = new char[index]; 
+    for (int i = 0; i < index; i++) { 
+        revbinary[i] = binary[index - i - 1]; 
+    } 
+    return String.valueOf(revbinary); 
+}
+
+String decimalToOctal(String n) { 
+    if (Integer.valueOf(n) == 0) 
+        return n; 
+    
+    int number = Integer.valueOf(n); 
+    char[] octal = new char[32]; 
+    int index = 0, remainder; 
+    
+    while (number > 0) { 
+        remainder = number % 8; 
+        octal[index] = (char)(remainder + '0'); 
+        number /= 8; 
+        index++; 
+    } 
+    
+    char[] revoctal = new char[index]; 
+    for (int i = 0; i < index; i++) { 
+        revoctal[i] = octal[index - i - 1]; 
+    } 
+    return String.valueOf(revoctal); 
+}
+
+String decimalToHexadecimal(String n) { 
+    if (Integer.valueOf(n) == 0) 
+        return n; 
+    
+    int number = Integer.valueOf(n); 
+    char[] hexa = new char[32]; 
+    int index = 0, remainder; 
+    
+    while (number > 0) { 
+        remainder = number % 16; 
+        if (remainder > 9) 
+            hexa[index] = (char)(remainder + 87); 
+        else 
+            hexa[index] = (char)(remainder + '0'); 
+        
+        number /= 16; 
+        index++; 
+    } 
+    
+    char[] revhexa = new char[index]; 
+    for (int i = 0; i < index; i++) { 
+        revhexa[i] = hexa[index - i - 1]; 
+    } 
+    return String.valueOf(revhexa); 
+}
+
+String binaryToDecimal(String n) { 
+    int decimal = 0; 
+    int base = 1; 
+    
+    for (int i = n.length() - 1; i >= 0; i--) { 
+        if (n.charAt(i) == '1') 
+            decimal += base; 
+        
+        base *= 2; 
+    } 
+    return String.valueOf(decimal); 
+}
+
+String binaryToOctal(String n) { 
+    return decimalToOctal(binaryToDecimal(n)); 
+}
+
+String binaryToHexadecimal(String n) { 
+    return decimalToHexadecimal(binaryToDecimal(n)); 
+}
+
+String octalToDecimal(String n) { 
+    int decimal = 0; 
+    int base = 1; 
+    
+    for (int i = n.length() - 1; i >= 0; i--) { 
+        decimal += (n.charAt(i) - '0') * base; 
+        base *= 8; 
+    } 
+    return String.valueOf(decimal); 
+}
+
+String octalToBinary(String n) { 
+    return decimalToBinary(octalToDecimal(n)); 
+}
+
+String octalToHexadecimal(String n) { 
+    return decimalToHexadecimal(octalToDecimal(n)); 
+}
+
+String hexadecimalToDecimal(String n) { 
+    int decimal = 0; 
+    int base = 1; 
+    
+    for (int i = n.length() - 1; i >= 0; i--) { 
+        char ch = n.charAt(i); 
+        int value = 0; 
+        
+        if (ch >= '0' && ch <= '9') 
+            value = ch - '0'; 
+        else if (ch >= 'a' && ch <= 'f') 
+            value = ch - 87; 
+        else if (ch >= 'A' && ch <= 'F') 
+            value = ch - 55; 
+        
+        decimal += value * base; 
+        base *= 16; 
+    } 
+    return String.valueOf(decimal); 
+}
+
+String hexadecimalToBinary(String n) { 
+    return decimalToBinary(hexadecimalToDecimal(n)); 
+}
+
+String hexadecimalToOctal(String n) { 
+    return decimalToOctal(hexadecimalToDecimal(n)); 
+}
+
+public String toXXSystem(String n, String XX) { 
+    String result = "0"; 
+    char input = n.charAt(1); 
+    
+    if (input >= 'A') { 
+        n = n.substring(2); 
+        switch (input) { 
+            case 'b': 
+            case 'B': 
+                if (XX == "D" || XX == "d") { 
+                    result = binaryToDecimal(n); 
+                } else if (XX == "O" || XX == "o") { 
+                    result = binaryToOctal(n); 
+                } else if (XX == "H" || XX == "h") { 
+                    result = binaryToHexadecimal(n); 
+                } else { 
+                    return "Provide valid input !"; 
+                } 
+                break; 
+            case 'x': 
+            case 'X': 
+                if (XX == "D" || XX == "d") { 
+                    result = hexadecimalToDecimal(n); 
+                } else if (XX == "O" || XX == "o") { 
+                    result = hexadecimalToOctal(n); 
+                } else if (XX == "B" || XX == "b") { 
+                    result = hexadecimalToBinary(n); 
+                } else { 
+                    return "Provide valid input !"; 
+                } 
+                break; 
+            default: 
+                break; 
+        } 
+    } else if (n.charAt(0) == '0') { 
+        if (XX == "D" || XX == "d") { 
+            result = octalToDecimal(n); 
+        } else if (XX == "H" || XX == "h") { 
+            result = octalToHexadecimal(n); 
+        } else if (XX == "B" || XX == "b") { 
+            result = octalToBinary(n); 
+        } else { 
+            return "Provide valid input !"; 
+        } 
+    } else { 
+        if (XX == "B" || XX == "b") { 
+            result = decimalToBinary(n); 
+        } else if (XX == "H" || XX == "h") { 
+            result = decimalToHexadecimal(n); 
+        } else if (XX == "O" || XX == "o") {
+            result = decimalToOctal(n); 
+        } else { 
+            return "Provide valid input !"; 
+        } 
+    } 
+    return result; 
+}
