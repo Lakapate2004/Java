@@ -1,0 +1,52 @@
+
+class Game{
+public static void Sudoku(int size) {
+
+    String array[][] = new String[size][size];
+    int p  = (int)(System.nanoTime()%3);
+      for (int i = 0;i<size;i++){
+            for(int j =0;j<size;j++){
+                Integer n = ((i+j+p)%size +1);
+                array[i][j] = n.toString() ;
+            }
+      }
+
+    for(int k = 1 ;k <=(size*size)/2 ; k++){
+        int i =(int) ((System.nanoTime()/1000)%size);
+        int j =(int) ((System.nanoTime()/100)%size);
+         array[i][j] = " ";
+    }
+
+
+
+    for(int row = 1 ;row<=(size*2)+1;row++){
+        
+        
+        for(int col = 1 ; col<=(size*2)+1; col ++){
+            if(row%2==1){
+                if(col%2==1){
+                    System.out.print(" ");
+                } else{
+                    System.out.print("--");
+                }
+            } else {
+                if (col % 2 == 1) {
+                    System.out.print("|");
+                } else {
+                    if((array[(row/2)-1][(col/2)-1]).length()==1){
+                        System.out.print(" ");
+                    }
+                    System.out.print(array[(row/2)-1][(col/2)-1]);
+                }
+            } 
+            
+    }
+        
+        System.out.println();
+    }
+
+}
+public static void main(String[] args) {
+        Sudoku(Integer.parseInt(args[0]));
+}
+}
