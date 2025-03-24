@@ -1,0 +1,178 @@
+import java.util.Random;  
+import java.util.Scanner;  
+import java.util.Arrays;  
+import java.io.IOException;  
+
+class Game{
+    String[][] layout, userAns;
+    int[] rmvIndex;
+    int size, remove;
+    boolean valid;
+
+    Game(int size)throws IOException{
+        this.size = size;
+        getLayout();
+        selectLvl();
+        rmvElements();
+        grid();
+        askValue();
+
+        userAns = new String[size][size];
+        for(int i = 0; i < size; i++){
+            userAns[i] = Arrays.copyOf(layout[i], size);
+        }
+        if(checkSolution()){
+            System.out.println("Congratulations! You solved it.");
+        }
+        else{
+            System.out.println("Incorrect! Please try again.");
+
+        }
+
+    }
+
+    void grid(){
+        for(int row = 1 ;row<=(size*2)+1; row++){
+            for(int column = 1 ; column<=(size*2)+1; column++){
+                if(row%2==1){
+                    if(column%2==1){
+                        System.out.print(" ");
+                    }
+                    else{
+                        System.out.print("--");
+                    }
+                }
+                else{
+                    if(column % 2 == 1) {
+                        System.out.print("|");
+                    }
+                    else{
+                        if((layout[(row/2)-1][(column/2)-1]).length()==1){
+                            System.out.print(" ");
+                        }
+                        System.out.print(layout[(row/2)-1][(column/2)-1]);
+                    }
+                } 
+            }
+            System.out.println();
+        }
+    }
+
+    void getLayout() {
+        layout = new String[size][size];
+        Random random = new Random();
+    
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                int num;
+                do {
+                    num = random.nextInt(size) + 1;
+                } while (!isValid(i, j, num));
+                layout[i][j] = String.valueOf(num);
+            }
+        }
+    }
+    
+    boolean isValid(int row, int col, int num) {
+        for (int i = 0; i < row; i++) {
+            if (layout[i][col] != null && Integer.parseInt(layout[i][col]) == num) {
+                return false;
+            }
+        }
+        for (int j = 0; j < col; j++) {
+            if (layout[row][j] != null && Integer.parseInt(layout[row][j]) == num) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    void selectLvl() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select difficulty level:\n1. Easy\n2. Medium\n3. Hard");
+    
+        while (true) {
+            String level = scanner.nextLine();
+            if (level.equals("1")) {
+                remove = (size * size) / 3;
+                break;
+            } else if (level.equals("2")) {
+                remove = (size * size) / 2;
+                break;
+            } else if (level.equals("3")) {
+                remove = (size * size * 3) / 4;
+                break;
+            } else {
+                System.out.println("Invalid option, please select again.");
+            }
+        }
+    }
+    void rmvElements() {
+        Random random = new Random();
+        rmvIndex = new int[2 * remove];
+        int count = 0;
+    
+        while (count < remove) {
+            int i = random.nextInt(size);
+            int j = random.nextInt(size);
+    
+            if (!layout[i][j].equals(" ")) {
+                layout[i][j] = " ";
+                rmvIndex[2 * count] = i;
+                rmvIndex[2 * count + 1] = j;
+                count++;
+            }
+        }
+    }
+    void askValue() {
+        Scanner scanner = new Scanner(System.in);
+    
+        for (int i = 0; i < remove; i++) {
+            int row = rmvIndex[2 * i];
+            int col = rmvIndex[2 * i + 1];
+    
+            System.out.println("Enter value for index (" + (row + 1) + "," + (col + 1) + ") or 'Z' to undo:");
+            
+            String input = scanner.nextLine();
+    
+            if (input.equalsIgnoreCase("Z") && i > 0) {
+                int prevRow = rmvIndex[2 * (i - 1)];
+                int prevCol = rmvIndex[2 * (i - 1) + 1];
+                layout[prevRow][prevCol] = " ";
+                i -= 2;
+                grid();
+                continue;
+            }
+    
+            try {
+                int num = Integer.parseInt(input);
+                if (num < 1 || num > size) {
+                    System.out.println("Invalid input. Enter a number between 1 and " + size);
+                    i--;
+                    continue;
+                }
+                layout[row][col] = input;
+                grid();
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Enter a number.");
+                i--;
+            }
+        }
+    }
+    
+    boolean checkSolution() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                for (int k = j + 1; k < size; k++) {
+                    if (userAns[i][j].equals(userAns[i][k]) || userAns[j][i].equals(userAns[k][i])) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+	public static void main(String[] args)throws IOException{
+		Game sudoku = new Game(Integer.parseInt(args[0]));
+	}
+}
